@@ -1,3 +1,3 @@
 # Sea_Battle
-My first small projec
+My first small project
 Sea Battle game.
