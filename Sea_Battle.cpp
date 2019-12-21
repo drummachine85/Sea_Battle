@@ -1,5 +1,7 @@
-// Sea_Battle.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+
+
+#include<windows.h>
+
 
 #include <iostream>
 #include<iomanip>
@@ -23,6 +25,27 @@ int charTostring(char cordinates ); // bukvi koordinat v vozvraschaemij int
 bool check(int arry[12][12], int a, int b);
 
 int ship_choise();// nuzhno peredelatj--->sdelatj vozvraschatj 2 int znachenija
+
+enum ConsoleColor
+{
+	Black = 0,
+	Blue = 1,
+	Green = 2,
+	Cyan = 3,
+	Red = 4,
+	Magenta = 5,
+	Brown = 6,
+	LightGray = 7,
+	DarkGray = 8,
+	LightBlue = 9,
+	LightGreen = 10,
+	LightCyan = 11,
+	LightRed = 12,
+	LightMagenta = 13,
+	Yellow = 14,
+	White = 15
+};
+void SetColor(ConsoleColor text, ConsoleColor background);
 int main()
 {
 	//_setmode(_fileno(stdout),_O_U16TEXT);
@@ -78,13 +101,35 @@ void print_arry(int arry[12][12])
 	{
 		for (int j = 0;j < 11; j++)
 		{
+			if (arry[i][j] > 64 || arry[i][j] <= 90)
+			{
+				SetColor(Green, Black);
+			}
+			if (arry[i][j]=='x') {
+				SetColor(Cyan, Black);
+			}
+			
 			if (arry[i][j] >= 11)
 			{
-				printf("%c", arry[i][j]);
+				cout<<(char)arry[i][j];
+				cout << '\t';
+				SetColor(White,Black);
 			}
 			else
 			{
+				SetColor(White, Black);
+				if (arry[i][j]<=10)
+				{
+					SetColor(Yellow, Black);
+				
+				}
+				if(j!=0)
+				{
+					SetColor(White, Black);
+				}
 				cout << arry[i][j];
+				cout << '\t';
+				SetColor(White, Black);
 			}
 		}
 		cout << endl;
@@ -123,7 +168,6 @@ void insert(int arry[12][12],int choise)   //Insert ship coordinates
 					cin.ignore(32767, '\n');
 					i--;
                 }
-				
 				if (colmn < 1) { cout << "Please enter number >0 <11" << endl; };
 				if (colmn >= 11) { cout << "Please enter number >0  <11" << endl; };
 				
@@ -248,3 +292,8 @@ int charTostring(char cordinates)
 }
 }
 
+void SetColor(ConsoleColor text, ConsoleColor background)
+{
+	HANDLE hSTDOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hSTDOut, (WORD)(background << 4) | text);
+}
